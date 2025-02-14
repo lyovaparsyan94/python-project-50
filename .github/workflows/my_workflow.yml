@@ -23,19 +23,29 @@ jobs:
       - name: Run linter
         run: make lint
 
-      - name: Run Code Climate Test Reporter (before-build)
+      # Загружаем Code Climate Test Reporter
+      - name: Download Code Climate Test Reporter
         if: github.ref_name == 'main'
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-reporter
           chmod +x ./cc-reporter
-          ./cc-reporter before-build
 
+      # Перед тестами - регистрируем репортер
+      - name: Run Code Climate Test Reporter (before-build)
+        if: github.ref_name == 'main'
+        run: ./cc-reporter before-build
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+
+      # Запускаем тесты с генерацией coverage.xml
       - name: Run tests with coverage
         run: make test-coverage
 
+      # Проверяем, создался ли файл coverage.xml
       - name: Check if coverage.xml exists
         run: ls -l coverage.xml || echo "❌ coverage.xml NOT FOUND"
 
+      # После тестов - передаем результаты Code Climate
       - name: Run Code Climate Test Reporter (after-build)
         if: github.ref_name == 'main'
         run: ./cc-reporter after-build --exit-code $?
