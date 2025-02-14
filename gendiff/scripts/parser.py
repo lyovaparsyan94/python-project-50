@@ -10,7 +10,7 @@ def get_file_format(file_path):
 
 
 def read_file(file_path):
-    with open(file_path) as file:
+    with open(file_path, encoding='utf-8') as file:
         return file.read()
 
 
