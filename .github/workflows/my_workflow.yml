@@ -9,23 +9,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-        # make depends on uv
+
       - name: Install dependencies
         run: |
           pip install uv
           make install
-      - name: Run linter and pytest
-        run: |
-          make lint
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v3.2.0
+
+      - name: Run linter
+        run: make lint
+
+      - name: Run Code Climate Test Reporter (before-build)
         if: github.ref_name == 'main'
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-reporter
+          chmod +x ./cc-reporter
+          ./cc-reporter before-build
+
+      - name: Run tests with coverage
+        run: make test-coverage
+
+      - name: Check if coverage.xml exists
+        run: ls -l coverage.xml || echo "❌ coverage.xml NOT FOUND"
+
+      - name: Run Code Climate Test Reporter (after-build)
+        if: github.ref_name == 'main'
+        run: ./cc-reporter after-build --exit-code ${{ job.status }} --debug
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: make test-coverage
-          debug: true
