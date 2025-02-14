@@ -38,6 +38,6 @@ jobs:
 
       - name: Run Code Climate Test Reporter (after-build)
         if: github.ref_name == 'main'
-        run: ./cc-reporter after-build --exit-code ${{ job.status }} --debug
+        run: ./cc-reporter after-build --exit-code $?
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
