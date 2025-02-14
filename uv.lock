@@ -87,6 +87,7 @@ source = { editable = "." }
 dependencies = [
     { name = "codeclimate-test-reporter" },
     { name = "coverage" },
+    { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pyyaml" },
 ]
@@ -101,6 +102,7 @@ dev = [
 requires-dist = [
     { name = "codeclimate-test-reporter", specifier = ">=0.2.3" },
     { name = "coverage", specifier = ">=7.6.10" },
+    { name = "pytest", specifier = ">=8.3.4" },
     { name = "pytest-cov", specifier = ">=6.0.0" },
     { name = "pyyaml", specifier = ">=6.0.2" },
 ]
