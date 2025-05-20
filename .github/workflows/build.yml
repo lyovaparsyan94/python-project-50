@@ -1,40 +1,31 @@
-name: Build & Analyze
+name: Python CI
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    types: [ opened, synchronize, reopened ]
+  - push
+  - pull_request
 
 jobs:
-  sonar:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
+          python-version: '3.12'
+        # make depends on uv
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
-          pip install pytest pytest-cov
-
-      - name: Run tests & generate coverage report
+          pip install uv
+          make install
+      - name: Run linter and pytest
         run: |
-          pytest --cov=gendiff --cov-report=xml:coverage.xml
-
-      - name: Verify coverage report
+          make check
+      - name: Run test coverage
         run: |
-          ls -la
-          [[ -s coverage.xml ]] && echo "coverage.xml OK" || (echo "coverage.xml missing or empty" && exit 1)
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1
+          make test-coverage
+      - name: SonarQubeScan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -42,3 +33,5 @@ jobs:
             -Dsonar.projectKey=lyovaparsyan94_python-project-50
             -Dsonar.organization=lyovaparsyan94
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.coverage.exclusions=tests/**
+            -Dsonar.exclusions=tests/**
