@@ -1,95 +1,59 @@
-### Hexlet tests and linter status:
-
-[![Actions Status](https://github.com/lyovaparsyan94/python-project-50/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/lyovaparsyan94/python-project-50/actions)
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/211f3fb05430bee114cc/maintainability)](https://codeclimate.com/github/lyovaparsyan94/python-project-50/maintainability)
-[![my_check](https://github.com/lyovaparsyan94/python-project-50/actions/workflows/my_workflow.yml/badge.svg)](https://github.com/lyovaparsyan94/python-project-50/actions/workflows/my_workflow.yml)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/211f3fb05430bee114cc/test_coverage)](https://codeclimate.com/github/lyovaparsyan94/python-project-50/test_coverage)
+# Python-project Difference Generator
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lyovaparsyan94_python-project-50&metric=coverage)](https://sonarcloud.io/summary/new_code?id=lyovaparsyan94_python-project-50)
-# Difference Calculator (gendiff)
+### Description
 
-- gendiff is a command-line tool for finding differences between files. This is the second project developed as part of
-  the Hexlet course.
+**Difference Generator** is a program that determines the difference between two data structures. This is a popular task, for which there are many online services, for example, *jsondiff*. A similar mechanism is used, for example, when outputting tests or when automatically tracking changes in configuration files.  
 
-***
+### Utility Capabilities:
+- Different input formats support: yaml, json
+- Report generating in plain text, stylish and json formats
 
-## Requirements:
+### Usage example:
+```
+gendiff --format plain filepath1.json filepath2.json
 
-[Python 3.13 +] - (https://www.python.org/downloads/)
-
-[UV 0.5.11 +] - (https://astral.sh)
-***
-
-## Installation:
-
-``` 
-git clone git@github.com:lyovaparsyan94/python-project-50.git
+Setting "common.setting4" was added with value: False
+Setting "group1.baz" was updated. From 'bas' to 'bars'
+Section "group2" was removed
 ```
 
-````
-cd python-project-50
-````
+gendiff stylish formatter
+[![asciicast](https://asciinema.org/a/kvwIQAClaH6DR3EufxQeO59J3.svg)](https://asciinema.org/a/kvwIQAClaH6DR3EufxQeO59J3)
+gendiff plain formatter
+[![asciicast](https://asciinema.org/a/GunzYEOFEmh0uq7rVVWPoja4m.svg)](https://asciinema.org/a/GunzYEOFEmh0uq7rVVWPoja4m)
+gendiff json formatter
+[![asciicast](https://asciinema.org/a/o7DBEqyp3H5llYqWTANNJrcD6.svg)](https://asciinema.org/a/o7DBEqyp3H5llYqWTANNJrcD6)
 
-`````
-uv build
-``````
 
-````````
-uv tool install dist/*.whl
-````````
+### Tools
 
-***
+| Tool                                                                   | Description                                                |
+|------------------------------------------------------------------------|---------------------------------------------------------|
+| [uv](https://docs.astral.sh/uv/)                                       | "An extremely fast Python package and project manager, written in Rust" |
+| [ruff](https://docs.astral.sh/ruff/)  (version 0.11.5)                  | "An extremely fast Python linter and code formatter, written in Rust"|
+| [Pytest](https://pytest.org)                                           | "A mature full-featured Python testing tool"  
+### Setup
 
-## Supported File Formats
-
-#### - JSON (.json)
-
-#### - YAML (.yaml, .yml)
-
-***
-
-## Usage
-
-1. Place the files you want to compare inside the tests/test_data directory.
-2. Run the following command, replacing file1 and file2 with your actual file names:
-
-````
-uv run gendiff tests/test_data/<file1> tests/test_data/<file2>
-````
-
-3. By default, the output is formatted using the stylish formatter.
-
-- To use a different format (json or plain), specify it with the -f flag:
-
-***
-
-### Пример вывода инструмента при использовании разных форматтеров:
-
-- **Default (stylish) formatter:**
-
-````
-uv run gendiff tests/test_data/<file1> tests/test_data/<file1>
-````
-
-- **Using the JSON formatter:**
-
-``````
-uv run gendiff -f stylish tests/test_data/<file1> tests/test_data/<file1>
-``````
-
-- **Using the Plain formatter:**
-
-``````
-uv run gendiff -f plain tests/test_data/<file1> tests/test_data/<file1>
-``````
-
-## Development and Testing
-### Linting
-Run ruff to check for linting issues:
+```bash
+make install
 ```
-make lint
+### Run
+```bash
+gendiff filepath1.json filepath2.json
+
+gendiff filepath1.yml filepath2.yml
+
+gendiff --format plain filepath1.json filepath2.json
+
+gendiff --format plain filepath1.yml filepath2.yml
+
+gendiff --format json filepath1.json filepath2.json
+
+gendiff --format json filepath1.yml filepath2.yml
 ```
-Running Tests
-```
-make test-coverage
+
+### Uninstall
+
+```bash
+make uninstall
 ```

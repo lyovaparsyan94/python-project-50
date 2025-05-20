@@ -6,7 +6,7 @@
     "setting6": {
       "key": "value",
       "doge": {
-        "wow": "value"
+        "wow": ""
       }
     }
   },
@@ -24,3 +24,4 @@
     }
   }
 }
+
