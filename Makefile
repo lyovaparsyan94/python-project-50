@@ -1,20 +1,8 @@
 install:
 	uv sync
 
-uninstall:
-	uv tool uninstall hexlet-code
-
-reinstall:
-	uv tool install --force dist/*.whl
-
-build:
-	uv build
-
-package-install:
-	uv tool install dist/*.whl
-
 run:
-	uv run hexlet-python-package
+	uv run gendiff --format json tests/test_data/file1_deep.yaml tests/test_data/file2_deep.yaml
 
 test:
 	uv run pytest
@@ -27,4 +15,16 @@ lint:
 
 check: test lint
 
-.PHONY: install test lint selfcheck check build
+build:
+	uv build
+
+package-install:
+	uv tool install dist/*.whl
+
+reinstall:
+	uv tool install --force dist/*.whl
+
+uninstall:
+	uv tool uninstall hexlet-code
+
+.PHONY: install test lint selfcheck check build package-install reinstall uninstall
