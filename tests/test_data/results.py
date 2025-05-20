@@ -1,6 +1,6 @@
 FILE1_DICT = {
-    'host': 'hexlet.io', 'timeout': 50, 
-    'proxy': '123.234.53.22', 'follow': False
+    'host': 'hexlet.io', 'timeout': 50,
+    'proxy': '123.234.53.22', 'follow': False  # NOSONAR
 }
 
 FILE2_DICT = {
@@ -10,7 +10,7 @@ FILE2_DICT = {
 DIFF = '''{
   - follow: false
     host: hexlet.io
-  - proxy: 123.234.53.22
+  - proxy: 123.234.53.22 # NOSONAR
   - timeout: 50
   + timeout: 20
   + verbose: true
