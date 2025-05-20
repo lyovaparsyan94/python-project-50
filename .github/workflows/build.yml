@@ -1,29 +1,37 @@
 name: Python CI
 
 on:
-  - push
-  - pull_request
+  push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-        # make depends on uv
-      - name: Install dependencies
-        run: |
-          pip install uv
-          make install
-      - name: Run linter and pytest
-        run: |
-          make check
+
+      - name: Install dependencies via Makefile
+        run: make install
+
+      - name: Lint & run tests
+        run: make check
+
       - name: Run test coverage
+        run: make test-coverage
+
+      - name: Verify coverage report
         run: |
-          make test-coverage
+          ls -la coverage.xml
+          [[ -s coverage.xml ]] && echo "coverage.xml OK" || (echo "coverage.xml missing or empty" && exit 1)
+
       - name: SonarQubeScan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
